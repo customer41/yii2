@@ -10,4 +10,27 @@ class Post extends ActiveRecord
     {
         return 'posts';
     }
+
+    public function getComments()
+    {
+        return $this->hasMany(Comment::className(), ['post_id' => 'id']);
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'title' => 'Заголовок поста',
+            'intro' => 'Введение',
+            'text' => 'Содержимое поста',
+        ];
+    }
+
+    public function rules()
+    {
+        return [
+            [['title', 'intro'], 'required'],
+            [['title', 'intro'], 'trim'],
+            ['text', 'safe'],
+        ];
+    }
 }
