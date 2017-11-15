@@ -11,6 +11,10 @@ class m171111_120738_createCommentsTable extends Migration
             'body' => $this->text()->notNull(),
             'created' => $this->timestamp()->defaultExpression('current_timestamp'),
             'post_id' => $this->integer()->notNull(),
+            'tree' => $this->integer()->notNull(),
+            'lft' => $this->integer()->notNull(),
+            'rgt' => $this->integer()->notNull(),
+            'depth' => $this->integer()->notNull(),
         ]);
     }
 

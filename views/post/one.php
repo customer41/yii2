@@ -17,6 +17,9 @@
         <hr>
     </article>
 </section>
+
+<?php echo \app\components\AddCommentWidget::widget(['postId' => $post->id]); ?>
+
 <section>
     <?php $comments = $post->comments; ?>
     <?php if (empty($comments)): ?>
