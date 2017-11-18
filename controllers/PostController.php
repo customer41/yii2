@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Comment;
 use app\models\Post;
 use yii\web\Controller;
 use yii\web\HttpException;
@@ -14,7 +15,26 @@ class PostController extends Controller
         if (null == $post) {
             throw new HttpException(404, 'Запрашиваемый пост не найден');
         }
-        return $this->render('one', ['post' => $post]);
+        $comments = $post->comments;
+
+
+        $comments = Comment::find()->where(['tree' => 2])->orderBy('lft')->all();
+
+        function getTabs($depth) {
+            $tabs = '';
+            while ($depth > 0) {
+                $tabs .= '&emsp;&emsp;';
+                $depth--;
+            }
+            return $tabs;
+        }
+
+        foreach ($comments as $comment) {
+            echo getTabs($comment->depth) . $comment->body . '<br>';
+        }
+        die;
+
+        return $this->render('one', ['post' => $post, 'comments' => $comments]);
     }
 
     public function actionAll()
