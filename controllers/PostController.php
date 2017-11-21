@@ -15,25 +15,13 @@ class PostController extends Controller
         if (null == $post) {
             throw new HttpException(404, 'Запрашиваемый пост не найден');
         }
-        $comments = $post->comments;
-
-
-        $comments = Comment::find()->where(['tree' => 2])->orderBy('lft')->all();
-
-        function getTabs($depth) {
-            $tabs = '';
-            while ($depth > 0) {
-                $tabs .= '&emsp;&emsp;';
-                $depth--;
-            }
-            return $tabs;
+        $roots = Comment::find()->where(['post_id' => $post->id])->roots()->all();
+        $comments = [];
+        foreach ($roots as $root) {
+            $tree = $root->children()->all();
+            array_unshift($tree, $root);
+            $comments[] = $tree;
         }
-
-        foreach ($comments as $comment) {
-            echo getTabs($comment->depth) . $comment->body . '<br>';
-        }
-        die;
-
         return $this->render('one', ['post' => $post, 'comments' => $comments]);
     }
 

@@ -6,7 +6,7 @@ use yii\web\Controller;
 
 class CommentController extends Controller
 {
-    public function actionSave($postId, $commentId = null)
+    public function actionSave($postId)
     {
 
     }
